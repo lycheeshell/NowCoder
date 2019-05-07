@@ -1,4 +1,4 @@
-package edu.nju.se;
+package edu.nju.se.num01_15;
 
 /**
  * 二位数组下的查找
