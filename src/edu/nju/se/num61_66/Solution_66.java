@@ -12,9 +12,66 @@ package edu.nju.se.num61_66;
  *
  */
 public class Solution_66 {
+	
     public int movingCount(int threshold, int rows, int cols) {
+    	
+    	if(threshold < 0) {
+    		return 0;
+    	}
         
+    	boolean[] used = new boolean[rows*cols];
     	
+    	move(threshold, rows, cols, 0, 0, used);
     	
+    	int num = 0;
+    	for(int i=0; i<used.length; i++) {
+    		if(used[i]) {
+    			num++;
+    		}
+    	}
+    	return num;
     }
+    
+    public void move(int k, int rows, int cols, int row, int col, boolean[] used) {
+    	
+    	if(row < 0 || col < 0 || row >= rows || col >= cols) {
+    		return;
+    	}
+    	//System.out.println("row " + row + "-----col " + col);
+    	if(rule(k, row, col) && !used[row*cols+col]) {
+    		used[row*cols+col] = true;
+    		move(k, rows, cols, row+1, col, used);
+    		move(k, rows, cols, row-1, col, used);
+    		move(k, rows, cols, row, col+1, used);
+    		move(k, rows, cols, row, col-1, used);
+    	} else {
+    		return;
+    	}
+    }
+    
+    public boolean rule(int k, int row, int col) {
+    	int sum = 0;
+    	while(row > 0) {
+    		sum = sum + row % 10;
+    		row = row / 10;
+    	}
+    	while(col > 0) {
+    		sum = sum + col % 10;
+    		col = col / 10;
+    	}
+    	if(sum <= k) {
+    		return true;
+    	} else {
+    		return false;
+    	}
+    }
+    
+    public static void main(String[] args) {
+		new Solution_66().test();
+	}
+    
+    public void test() {
+    	System.out.println(movingCount(18, 40, 40));
+    }
+    
 }
